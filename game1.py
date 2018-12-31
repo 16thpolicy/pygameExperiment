@@ -7,9 +7,9 @@ class Block(pygame.sprite.Sprite):
         self.image = pygame.Surface((width,height))
         self.image.fill(color)
         self.rect=self.image.get_rect()
-        self.colorR=20
-        self.colorG=20
-        self.colorB=20
+        self.colorR=3
+        self.colorG=9
+        self.colorB=14
         self.width=width
         self.height=height
     def set_position(self,x,y):
@@ -37,17 +37,17 @@ class Block(pygame.sprite.Sprite):
         return [self.rect.x,self.rect.y]
     def changecolor(self):
         if(self.colorlist[0]+self.colorR>255):
-            self.colorR=-20
+            self.colorR=-3
         elif(self.colorlist[0]+self.colorR<0):
-            self.colorR=+20
+            self.colorR=3
         if(self.colorlist[1]+self.colorG>255):
-            self.colorG=-20
+            self.colorG=-9
         elif(self.colorlist[1]+self.colorG<0):
-            self.colorG=+20
+            self.colorG=9
         if(self.colorlist[2]+self.colorB>255):
-            self.colorB=-20
+            self.colorB=-14
         elif(self.colorlist[2]+self.colorB<0):
-            self.colorB=+20
+            self.colorB=14
         self.colorlist[0]+=self.colorR
         self.colorlist[1]+=self.colorG
         self.colorlist[2]+=self.colorB
@@ -63,7 +63,7 @@ if(__name__ == "__main__"):
     window.fill( [105,255,205])
     
     clock = pygame.time.Clock() #create object to keep track of time
-    frames_per_sec = 30
+    frames_per_sec = 200
 
     block_group = pygame.sprite.Group()
     a_block=Block()
@@ -139,19 +139,19 @@ if(__name__ == "__main__"):
                         a_key=True
                     d_key=False    
         if(w_key):
-            didimove=a_block.move_position(0,-20,window_width,window_height)
+            didimove=a_block.move_position(0,-1,window_width,window_height)
             if(didimove):
                 a_block.changecolor()
         if(a_key):
-            didimove= a_block.move_position(-20,0,window_width,window_height)
+            didimove= a_block.move_position(-1,0,window_width,window_height)
             if(didimove):
                 a_block.changecolor()
         if(s_key):
-            didimove =a_block.move_position(0,+20,window_width,window_height)
+            didimove =a_block.move_position(0,1,window_width,window_height)
             if(didimove):
                 a_block.changecolor()
         if(d_key):
-            didimove=a_block.move_position(+20,0,window_width,window_height)
+            didimove=a_block.move_position(1,0,window_width,window_height)
             if(didimove):
                 a_block.changecolor()
         clock.tick(frames_per_sec)
