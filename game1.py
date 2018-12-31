@@ -86,7 +86,6 @@ if(__name__ == "__main__"):
 
     running = True
     while(running):
-        print("howmanytimesitpasseshere")
         for event in pygame.event.get():
             print("event: ",event)
             if(event.type == pygame.QUIT or (event.type== pygame.KEYDOWN and event.key == pygame.K_ESCAPE)):
@@ -94,15 +93,19 @@ if(__name__ == "__main__"):
             if(event.type == pygame.KEYDOWN):
                 if(event.key == pygame.K_w):
                     print("+w")
+                    s_key=False
                     w_key=True
                 elif(event.key == pygame.K_a):
                     print("+a")
+                    d_key=False
                     a_key=True
                 elif(event.key == pygame.K_s):
                     print("+s")
+                    w_key=False
                     s_key=True
                 elif(event.key == pygame.K_d):
                     print("+d")
+                    a_key=False
                     d_key=True
             if(event.type ==pygame.KEYUP):
                 if(event.key == pygame.K_w):
