@@ -55,7 +55,7 @@ class Block(pygame.sprite.Sprite):
 
 if(__name__ == "__main__"):
     pygame.init()
-    window_size = window_width, window_height = 640,480
+    window_size = window_width, window_height = 1080,800
     window = pygame.display.set_mode(window_size,pygame.RESIZABLE)
 
     pygame.display.set_caption("Game by Zhao")
@@ -68,7 +68,7 @@ if(__name__ == "__main__"):
     block_group = pygame.sprite.Group()
     a_block=Block()
 
-    a_block.set_position(window_width/2,window_height/2)
+    a_block.set_position(window_width/2-a_block.rect.width/2,window_height/2-a_block.rect.height/2)
     current_position=a_block.give_position()
 
     block_group.add(a_block)
