@@ -16,7 +16,8 @@ class Block(pygame.sprite.Sprite):
         self.rect.x=x
         self.rect.y=y
     def move_position(self,x,y,xbound,ybound):#add parameters
-        startlocation=self.rect.x,self.rect.y
+        changeinx=self.rect.x
+        changeiny=self.rect.y
         if(self.rect.x+x+self.width>xbound):
             self.rect.x=xbound-self.width
         elif(self.rect.x+x<0):
@@ -29,6 +30,9 @@ class Block(pygame.sprite.Sprite):
             self.rect.y=0
         else:
             self.rect.y+=y
+        if(changeinx!=self.rect.x or changeiny!=self.rect.y):
+            return True
+        return False
     def give_position(self):
         return [self.rect.x,self.rect.y]
     def changecolor(self):
@@ -135,18 +139,21 @@ if(__name__ == "__main__"):
                         a_key=True
                     d_key=False    
         if(w_key):
-            tempdistance=a_block.move_position(0,-20,window_width,window_height)
-            if(tempdistance>0):
+            didimove=a_block.move_position(0,-20,window_width,window_height)
+            if(didimove):
                 a_block.changecolor()
         if(a_key):
-            a_block.move_position(-20,0,window_width,window_height)
-            a_block.changecolor()
+            didimove= a_block.move_position(-20,0,window_width,window_height)
+            if(didimove):
+                a_block.changecolor()
         if(s_key):
-            a_block.move_position(0,+20,window_width,window_height)
-            a_block.changecolor()
+            didimove =a_block.move_position(0,+20,window_width,window_height)
+            if(didimove):
+                a_block.changecolor()
         if(d_key):
-            a_block.move_position(+20,0,window_width,window_height)
-            a_block.changecolor()
+            didimove=a_block.move_position(+20,0,window_width,window_height)
+            if(didimove):
+                a_block.changecolor()
         clock.tick(frames_per_sec)
         block_group.draw(window)
         pygame.display.update()
