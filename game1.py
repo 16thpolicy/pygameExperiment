@@ -83,6 +83,10 @@ if(__name__ == "__main__"):
     a_key=False
     s_key=False
     d_key=False
+    w_cover=False
+    a_cover=False
+    s_cover=False
+    d_cover=False
 
     running = True
     while(running):
@@ -93,32 +97,52 @@ if(__name__ == "__main__"):
             if(event.type == pygame.KEYDOWN):
                 if(event.key == pygame.K_w):
                     print("+w")
-                    s_key=False
+                    if(s_key):
+                        s_key=False
+                        w_cover=True
                     w_key=True
                 elif(event.key == pygame.K_a):
                     print("+a")
-                    d_key=False
+                    if(d_key):
+                        d_key=False
+                        a_cover=True
                     a_key=True
                 elif(event.key == pygame.K_s):
                     print("+s")
-                    w_key=False
+                    if(w_key):
+                        w_key=False
+                        s_cover=True
                     s_key=True
                 elif(event.key == pygame.K_d):
                     print("+d")
-                    a_key=False
+                    if(a_key):
+                        a_key=False
+                        d_cover=True
                     d_key=True
             if(event.type ==pygame.KEYUP):
                 if(event.key == pygame.K_w):
                     print("-w")
+                    s_cover=False
+                    if(w_cover):
+                        s_key=True
                     w_key=False
                 elif(event.key == pygame.K_a):
                     print("-a")
+                    d_cover=False
+                    if(a_cover):
+                        d_key=True
                     a_key=False
                 elif(event.key == pygame.K_s):
                     print("-s")
+                    w_cover=False
+                    if(s_cover):
+                        w_key=True
                     s_key=False
                 elif(event.key == pygame.K_d):
                     print("-d")
+                    a_cover=False
+                    if(d_cover):
+                        a_key=True
                     d_key=False    
         if(w_key):
             a_block.move_position(0,-20,window_width,window_height)
