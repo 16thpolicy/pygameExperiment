@@ -10,12 +10,24 @@ class Block(pygame.sprite.Sprite):
         self.colorR=20
         self.colorG=20
         self.colorB=20
+        self.width=width
+        self.height=height
     def set_position(self,x,y):
         self.rect.x=x
         self.rect.y=y
-    def move_position(self,x,y):
-        self.rect.x+=x
-        self.rect.y+=y
+    def move_position(self,x,y,xbound,ybound):#add parameters
+        if(self.rect.x+x+self.width>xbound):
+            self.rect.x=xbound-self.width
+        elif(self.rect.x+x<0):
+            self.rect.x=0
+        else:
+            self.rect.x+=x
+        if(self.rect.y+y+self.height>ybound):
+            self.rect.y=ybound-self.height
+        elif(self.rect.y+y<0):
+            self.rect.y=0
+        else:
+            self.rect.y+=y
     def give_position(self):
         return [self.rect.x,self.rect.y]
     def changecolor(self):
@@ -40,7 +52,7 @@ if(__name__ == "__main__"):
     pygame.init()
 
     window_size = window_width, window_height = 640,480
-    window = pygame.display.set_mode(window_size,pygame.RESIZABLE|pygame.FULLSCREEN)
+    window = pygame.display.set_mode(window_size,pygame.RESIZABLE)
 
 
 
@@ -67,41 +79,57 @@ if(__name__ == "__main__"):
 
     
 
-
+    w_key=False
+    a_key=False
+    s_key=False
+    d_key=False
 
     running = True
     while(running):
+        print("howmanytimesitpasseshere")
         for event in pygame.event.get():
-            if(event.type == pygame.QUIT or event.type== pygame.K_ESCAPE):
+            print("event: ",event)
+            if(event.type == pygame.QUIT or (event.type== pygame.KEYDOWN and event.key == pygame.K_ESCAPE)):
                 running=False
             if(event.type == pygame.KEYDOWN):
                 if(event.key == pygame.K_w):
                     print("+w")
-                    a_block.move_position(0,-20)
-                    a_block.changecolor()
-                if(event.key == pygame.K_a):
+                    w_key=True
+                elif(event.key == pygame.K_a):
                     print("+a")
-                    a_block.move_position(-20,0)
-                    a_block.changecolor()
-                if(event.key == pygame.K_s):
+                    a_key=True
+                elif(event.key == pygame.K_s):
                     print("+s")
-                    a_block.move_position(0,+20)
-                    a_block.changecolor()
-                if(event.key == pygame.K_d):
+                    s_key=True
+                elif(event.key == pygame.K_d):
                     print("+d")
-                    a_block.move_position(+20,0)
-                    a_block.changecolor()
+                    d_key=True
             if(event.type ==pygame.KEYUP):
                 if(event.key == pygame.K_w):
                     print("-w")
-                if(event.key == pygame.K_a):
+                    w_key=False
+                elif(event.key == pygame.K_a):
                     print("-a")
-                if(event.key == pygame.K_s):
+                    a_key=False
+                elif(event.key == pygame.K_s):
                     print("-s")
-                if(event.key == pygame.K_d):
+                    s_key=False
+                elif(event.key == pygame.K_d):
                     print("-d")
+                    d_key=False    
+        if(w_key):
+            a_block.move_position(0,-20,window_width,window_height)
+            a_block.changecolor()
+        if(a_key):
+            a_block.move_position(-20,0,window_width,window_height)
+            a_block.changecolor()
+        if(s_key):
+            a_block.move_position(0,+20,window_width,window_height)
+            a_block.changecolor()
+        if(d_key):
+            a_block.move_position(+20,0,window_width,window_height)
+            a_block.changecolor()
         clock.tick(frames_per_sec)
         block_group.draw(window)
         pygame.display.update()
-
     pygame.quit()
