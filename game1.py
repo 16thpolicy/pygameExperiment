@@ -16,6 +16,7 @@ class Block(pygame.sprite.Sprite):
         self.rect.x=x
         self.rect.y=y
     def move_position(self,x,y,xbound,ybound):#add parameters
+        startlocation=self.rect.x,self.rect.y
         if(self.rect.x+x+self.width>xbound):
             self.rect.x=xbound-self.width
         elif(self.rect.x+x<0):
@@ -50,24 +51,15 @@ class Block(pygame.sprite.Sprite):
 
 if(__name__ == "__main__"):
     pygame.init()
-
     window_size = window_width, window_height = 640,480
     window = pygame.display.set_mode(window_size,pygame.RESIZABLE)
 
-
-
-
     pygame.display.set_caption("Game by Zhao")
-
-
 
     window.fill( [105,255,205])
     
-
     clock = pygame.time.Clock() #create object to keep track of time
     frames_per_sec = 30
-
-
 
     block_group = pygame.sprite.Group()
     a_block=Block()
@@ -76,8 +68,6 @@ if(__name__ == "__main__"):
     current_position=a_block.give_position()
 
     block_group.add(a_block)
-
-    
 
     w_key=False
     a_key=False
@@ -145,8 +135,9 @@ if(__name__ == "__main__"):
                         a_key=True
                     d_key=False    
         if(w_key):
-            a_block.move_position(0,-20,window_width,window_height)
-            a_block.changecolor()
+            tempdistance=a_block.move_position(0,-20,window_width,window_height)
+            if(tempdistance>0):
+                a_block.changecolor()
         if(a_key):
             a_block.move_position(-20,0,window_width,window_height)
             a_block.changecolor()
@@ -160,3 +151,4 @@ if(__name__ == "__main__"):
         block_group.draw(window)
         pygame.display.update()
     pygame.quit()
+
