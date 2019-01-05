@@ -63,7 +63,7 @@ if(__name__ == "__main__"):
     window.fill( [105,255,205])
     
     clock = pygame.time.Clock() #create object to keep track of time
-    frames_per_sec = 200
+    frames_per_sec = 100
 
     block_group = pygame.sprite.Group()
     a_block=Block()
@@ -81,6 +81,8 @@ if(__name__ == "__main__"):
     a_cover=False
     s_cover=False
     d_cover=False
+    gravity=.15 #positive b/c rip and grid is flipped upside down
+    verticalspeed=0
 
     running = True
     while(running):
@@ -154,7 +156,12 @@ if(__name__ == "__main__"):
             didimove=a_block.move_position(1,0,window_width,window_height)
             if(didimove):
                 a_block.changecolor()
+        didblockmove=a_block.move_position(0,verticalspeed,window_width,window_height)#gravity does magic
+        if(not didblockmove and a_block.height+a_block.rect.y==window_height):
+            verticalspeed=0
+        verticalspeed+=gravity
         clock.tick(frames_per_sec)
+        window.fill( [105,255,205])
         block_group.draw(window)
         pygame.display.update()
     pygame.quit()
