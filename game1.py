@@ -68,7 +68,7 @@ if(__name__ == "__main__"):
     block_group = pygame.sprite.Group()
     a_block=Block()
 
-    a_block.set_position(window_width/2-a_block.rect.width/2,window_height/2-a_block.rect.height/2)
+    a_block.set_position(window_width/2-a_block.rect.width/2,window_height/8)
     current_position=a_block.give_position()
 
     block_group.add(a_block)
@@ -77,9 +77,7 @@ if(__name__ == "__main__"):
     a_key=False
     s_key=False
     d_key=False
-    w_cover=False
     a_cover=False
-    s_cover=False
     d_cover=False
     gravity=.15 #positive b/c rip and grid is flipped upside down
     verticalspeed=0
@@ -93,9 +91,6 @@ if(__name__ == "__main__"):
             if(event.type == pygame.KEYDOWN):
                 if(event.key == pygame.K_w):
                     print("+w")
-                    if(s_key):
-                        s_key=False
-                        w_cover=True
                     w_key=True
                 elif(event.key == pygame.K_a):
                     print("+a")
@@ -105,9 +100,6 @@ if(__name__ == "__main__"):
                     a_key=True
                 elif(event.key == pygame.K_s):
                     print("+s")
-                    if(w_key):
-                        w_key=False
-                        s_cover=True
                     s_key=True
                 elif(event.key == pygame.K_d):
                     print("+d")
@@ -118,9 +110,6 @@ if(__name__ == "__main__"):
             if(event.type ==pygame.KEYUP):
                 if(event.key == pygame.K_w):
                     print("-w")
-                    s_cover=False
-                    if(w_cover):
-                        s_key=True
                     w_key=False
                 elif(event.key == pygame.K_a):
                     print("-a")
@@ -130,9 +119,6 @@ if(__name__ == "__main__"):
                     a_key=False
                 elif(event.key == pygame.K_s):
                     print("-s")
-                    w_cover=False
-                    if(s_cover):
-                        w_key=True
                     s_key=False
                 elif(event.key == pygame.K_d):
                     print("-d")
@@ -140,7 +126,7 @@ if(__name__ == "__main__"):
                     if(d_cover):
                         a_key=True
                     d_key=False    
-        if(w_key):
+        if(w_key and a_block.height+a_block.rect.y==window_height):#if w is pressed and is on a platform
             didimove=a_block.move_position(0,-1,window_width,window_height)
             if(didimove):
                 a_block.changecolor()
@@ -148,10 +134,9 @@ if(__name__ == "__main__"):
             didimove= a_block.move_position(-1,0,window_width,window_height)
             if(didimove):
                 a_block.changecolor()
-        if(s_key):
-            didimove =a_block.move_position(0,1,window_width,window_height)
-            if(didimove):
-                a_block.changecolor()
+        if(s_key):#if on a platform
+            #duck
+            pass
         if(d_key):
             didimove=a_block.move_position(1,0,window_width,window_height)
             if(didimove):
