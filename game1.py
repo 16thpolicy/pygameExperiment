@@ -15,7 +15,7 @@ class Block(pygame.sprite.Sprite):
     def set_position(self,x,y):
         self.rect.x=x
         self.rect.y=y
-    def move_position(self,x,y,xbound,ybound):#add parameters
+    def move_position(self,x,y,xbound,ybound):#add parameters need it to check from a list of rects for now
         changeinx=self.rect.x
         changeiny=self.rect.y
         if(self.rect.x+x+self.width>xbound):
@@ -125,7 +125,7 @@ if(__name__ == "__main__"):
                     if(d_cover):
                         a_key=True
                     d_key=False
-        onplatform=pygame.sprite.collide_rect(a_block,platformblock) and a_block.rect.y+a_block.height>=platformblock.rect.y and a_block.rect.y+a_block.height<platformblock.rect.y+5
+        onplatform=pygame.sprite.collide_rect(a_block,platformblock) and a_block.rect.y+a_block.height>=platformblock.rect.y and a_block.rect.y+a_block.height<platformblock.rect.y+5 #need to include similar check to move function to generalize
         underplatform=pygame.sprite.collide_rect(a_block,platformblock) and a_block.rect.y<=platformblock.rect.y+platformblock.height and a_block.rect.y>platformblock.rect.y+platformblock.height-20
         if(onplatform):
             a_block.set_position(a_block.rect.x,platformblock.rect.y-a_block.height)
@@ -147,11 +147,13 @@ if(__name__ == "__main__"):
                 a_block.changecolor()
         if(s_key):#if on a platform
             #duck
+            #maybe include a crouch-jump thing
             pass
         if(d_key):
             didimove=a_block.move_position(1,0,window_width,window_height)
             if(didimove):
                 a_block.changecolor()
+        #include horizontal acceleration somewhere
         didblockmove=a_block.move_position(0,verticalspeed,window_width,window_height)#gravity does magic
         # if(pygame.sprite.collide_rect(a_block,platformblock)):
         if(not didblockmove and a_block.height+a_block.rect.y==window_height):
