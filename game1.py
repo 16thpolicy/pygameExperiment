@@ -33,8 +33,6 @@ class Block(pygame.sprite.Sprite):
         if(changeinx!=self.rect.x or changeiny!=self.rect.y):
             return True
         return False
-    def give_position(self):
-        return [self.rect.x,self.rect.y]
     def changecolor(self):
         if(self.colorlist[0]+self.colorR>255):
             self.colorR=-3
@@ -68,10 +66,12 @@ if(__name__ == "__main__"):
     block_group = pygame.sprite.Group()
     a_block=Block()
 
-    a_block.set_position(window_width/2-a_block.rect.width/2,window_height/8)
-    current_position=a_block.give_position()
+    platformblock=Block([12,3,12],256,32)
+    platformblock.set_position(10,window_height-256)
 
-    block_group.add(a_block)
+    a_block.set_position(window_width/2-a_block.rect.width/2,window_height/8)
+
+    block_group.add(a_block,platformblock)
 
     w_key=False
     a_key=False
@@ -81,7 +81,6 @@ if(__name__ == "__main__"):
     d_cover=False
     gravity=.15 #positive b/c rip and grid is flipped upside down
     verticalspeed=0
-
     running = True
     while(running):
         for event in pygame.event.get():
@@ -125,11 +124,23 @@ if(__name__ == "__main__"):
                     a_cover=False
                     if(d_cover):
                         a_key=True
-                    d_key=False    
-        if(w_key and a_block.height+a_block.rect.y==window_height):#if w is pressed and is on a platform
+                    d_key=False
+        onplatform=pygame.sprite.collide_rect(a_block,platformblock) and a_block.rect.y+a_block.height>=platformblock.rect.y and a_block.rect.y+a_block.height<platformblock.rect.y+5
+        underplatform=pygame.sprite.collide_rect(a_block,platformblock) and a_block.rect.y<=platformblock.rect.y+platformblock.height and a_block.rect.y>platformblock.rect.y+platformblock.height-20
+        if(onplatform):
+            a_block.set_position(a_block.rect.x,platformblock.rect.y-a_block.height)
+            verticalspeed=0
+        elif(underplatform):
+            a_block.set_position(a_block.rect.x,platformblock.rect.y+platformblock.height)
+            verticalspeed=0
+        if(w_key and (a_block.height+a_block.rect.y==window_height or onplatform)):#if w is pressed and is on a platform
+            verticalspeed=-10
             didimove=a_block.move_position(0,-1,window_width,window_height)
             if(didimove):
                 a_block.changecolor()
+        # elif(w_key):
+        #     verticalspeed-=10
+        #     w_key=False
         if(a_key):
             didimove= a_block.move_position(-1,0,window_width,window_height)
             if(didimove):
@@ -142,6 +153,7 @@ if(__name__ == "__main__"):
             if(didimove):
                 a_block.changecolor()
         didblockmove=a_block.move_position(0,verticalspeed,window_width,window_height)#gravity does magic
+        # if(pygame.sprite.collide_rect(a_block,platformblock)):
         if(not didblockmove and a_block.height+a_block.rect.y==window_height):
             verticalspeed=0
         verticalspeed+=gravity
