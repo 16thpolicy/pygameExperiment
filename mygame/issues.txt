@@ -1,0 +1,13 @@
+-Stop the clipping through other objects
+
+-Stop accelerating horizontally while in the air
+
+-Make j toggle which raises the horizontal velocity cap
+
+-Make sure the order of objects to be displayed
+
+-To limit area make a cap to stop moving objects (use invisible ends to keep track and if they can't move nothing but the square will)
+
+-Incorporate vertical fraction for each object varying from 0 to 1
+
+-Base the position of clouds by the proportion of the stage traveled
